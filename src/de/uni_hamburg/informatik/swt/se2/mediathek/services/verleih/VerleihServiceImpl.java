@@ -8,6 +8,7 @@ import java.util.Map;
 import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.Kunde;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.Verleihkarte;
+import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.VormerkKarte;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
 import de.uni_hamburg.informatik.swt.se2.mediathek.services.AbstractObservableService;
 import de.uni_hamburg.informatik.swt.se2.mediathek.services.kundenstamm.KundenstammService;
@@ -45,6 +46,8 @@ public class VerleihServiceImpl extends AbstractObservableService
      */
     private VerleihProtokollierer _protokollierer;
 
+    private Map<Medium, VormerkKarte> _vormerkKarten;
+
     /**
      * Konstruktor. Erzeugt einen neuen VerleihServiceImpl.
      * 
@@ -67,6 +70,7 @@ public class VerleihServiceImpl extends AbstractObservableService
         _kundenstamm = kundenstamm;
         _medienbestand = medienbestand;
         _protokollierer = new VerleihProtokollierer();
+        _vormerkKarten=new HashMap<Medium, VormerkKarte>();
     }
 
     /**
@@ -295,6 +299,35 @@ public class VerleihServiceImpl extends AbstractObservableService
             }
         }
         return result;
+    }
+
+    @Override
+    public void merkeMedienFuerKundeVor(Kunde k, List<Medium> ListeMedien)
+    {
+        assert istVormerkenMoeglich(k,
+                ListeMedien) : "Vormerken ist fuer mindestens ein Medium nicht möglich. Es wird nichts vorgemerkt.";
+        
+        for(Medium m : ListeMedien)
+        {
+           
+            _vormerkKarten.put(m,_vormerkKarten.get(m).merkeVor(k));  
+        }
+    }
+
+    @Override
+    public boolean istKundeVorgemerkt(Medium m, Kunde k)
+    {
+
+    }
+
+    @Override
+    public boolean istVormerkenMoeglich(Kunde k, List<Medium> ListeMedien);
+
+    {
+        if(!_vormerkKarten.containsKey(medium))
+        {
+            _vormerkKarten.add(medium,new VormerkKarte());
+        }
     }
 
 }

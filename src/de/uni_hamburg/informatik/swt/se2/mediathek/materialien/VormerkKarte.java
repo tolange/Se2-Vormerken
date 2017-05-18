@@ -20,7 +20,7 @@ public class VormerkKarte
     private Queue<Kunde> _vormerker;
     private int MAXVORMERKERZAHL = 3;
 
-    VormerkKarte()
+    public VormerkKarte()
     {
         _vormerker = new PriorityQueue<Kunde>();
     }
