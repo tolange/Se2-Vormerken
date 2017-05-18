@@ -8,10 +8,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Datum;
-import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Geldbetrag;
 import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Kundennummer;
-import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.CD;
+
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
 
 
@@ -28,12 +26,10 @@ private VormerkKarte _vormerkKarte;
 public VormerkKarteTest() {
 	
 	 _kunde1 = new Kunde(new Kundennummer(123456), "eins", "1");
-	 _kunde1 = new Kunde(new Kundennummer(23456), "zwei", "2");
-	 _kunde1 = new Kunde(new Kundennummer(3456), "drei", "3");
-
-	 _medium  = new  CD("bar", "baz", "foo", 123);
-	 
-	 _vormerkKarte = new VormerkKarte(_medium);
+	 _kunde2 = new Kunde(new Kundennummer(234561), "zwei", "2");
+	 _kunde3 = new Kunde(new Kundennummer(345612), "drei", "3");
+ 
+	 _vormerkKarte = new VormerkKarte();
 	 
 	 _vormerkKarte.merkeVor(_kunde1);
 	 _vormerkKarte.merkeVor(_kunde2);
@@ -41,32 +37,33 @@ public VormerkKarteTest() {
 }
 
 @Test
-testeIstKarteVoll(){
+public void testeIstKarteVoll(){
 	assertTrue(_vormerkKarte.istKarteVoll());
 }
 @Test
-testIstKundeVormerker() {
-	assertTrue(_vormerkKarte.istKundeVormerker());
+public void testIstKundeVormerker() {
+	assertTrue(_vormerkKarte.istKundeVormerker(_kunde1));
 }
 
 @Test
-testeGetNaechsterVormerker(){ 
+public void testeGetNaechsterVormerker(){ 
 	assertEquals(_kunde1, _vormerkKarte.getNaechsterVormerker());	
 }
 
 @Test
-testeRemoveNextVormerker(){
+public void testeRemoveNextVormerker(){
 	_vormerkKarte.removeNextVormerker();
 	assertEquals(_kunde2, _vormerkKarte.getNaechsterVormerker());	
 }
 
 @Test
-testeMerkeVor() {
+public void testeMerkeVor() {
 	_vormerkKarte.merkeVor(_kunde1);
 	_vormerkKarte.removeNextVormerker();
 	_vormerkKarte.removeNextVormerker();
 	assertEquals(_kunde1, _vormerkKarte.getNaechsterVormerker());	
 }
+}	
 
 
 
