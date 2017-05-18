@@ -3,8 +3,6 @@ package de.uni_hamburg.informatik.swt.se2.mediathek.materialien;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
-
 /**
  * Mit Hilfe von Vormerkkarten werden beim Vormerken eines Mediums alle relevanten
  * Daten notiert.
@@ -19,13 +17,11 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
  */
 public class VormerkKarte
 {
-    private Medium _medium;
     private Queue<Kunde> _vormerker;
     private int MAXVORMERKERZAHL = 3;
 
-    VormerkKarte(Medium m)
+    VormerkKarte()
     {
-        _medium = m;
         _vormerker = new PriorityQueue<Kunde>();
     }
     // Eigenschaften einer Vormerkkarte
