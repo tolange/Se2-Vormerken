@@ -14,6 +14,8 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.Kundennummer;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.Kunde;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.Verleihkarte;
+import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.VormerkKarte;
+import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.VormerkKarteTest;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.CD;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
 import de.uni_hamburg.informatik.swt.se2.mediathek.services.ServiceObserver;
@@ -32,9 +34,27 @@ public class VerleihServiceImplTest
     private VerleihService _service;
     private List<Medium> _medienListe;
     private Kunde _vormerkkunde;
+    
+    private Kunde _kunde1;
+    private Kunde _kunde2;
+    private Kunde _kunde3;
+
+
+    private VormerkKarte _vormerkKarte;
 
     public VerleihServiceImplTest()
     {
+    	 _kunde1 = new Kunde(new Kundennummer(123456), "eins", "1");
+    	 _kunde2 = new Kunde(new Kundennummer(234561), "zwei", "2");
+    	 _kunde3 = new Kunde(new Kundennummer(345612), "drei", "3");
+     
+    	 _vormerkKarte = new VormerkKarte();
+    	 
+    	 _vormerkKarte.merkeVor(_kunde1);
+    	 _vormerkKarte.merkeVor(_kunde2);
+    	 _vormerkKarte.merkeVor(_kunde3);
+    	 
+    	 
         _datum = new Datum(3, 4, 2009);
         KundenstammService kundenstamm = new KundenstammServiceImpl(
                 new ArrayList<Kunde>());
@@ -45,7 +65,8 @@ public class VerleihServiceImplTest
         kundenstamm.fuegeKundenEin(_kunde);
         kundenstamm.fuegeKundenEin(_vormerkkunde);
         MedienbestandService medienbestand = new MedienbestandServiceImpl(
-                new ArrayList<Medium>());
+        new ArrayList<Medium>());
+        
         Medium medium = new CD("CD1", "baz", "foo", 123);
         medienbestand.fuegeMediumEin(medium);
         medium = new CD("CD2", "baz", "foo", 123);
@@ -150,4 +171,62 @@ public class VerleihServiceImplTest
         assertFalse(ereignisse[0]);
     }
 
+    
+    @Test
+    public void testIstVerliehenAn(){
+    	
+    	CD cd = new CD("eins","zwei","drei",100);
+    	List<Medium> _zuVerleihen = new ArrayList<>();
+    	_zuVerleihen.add(cd);
+    
+			try {
+				_service.verleiheAn(_kunde1, _zuVerleihen, new Datum(3, 4, 2009) );
+			} catch (ProtokollierException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		assertEquals(_kunde1, _service.getEntleiherFuer(cd));
+			
+    }
+    
+    @Test
+    public void testeGetEntleiherFuer(){
+    	CD cd = new CD("eins","zwei","drei",100);
+    	List<Medium> _zuVerleihen = new ArrayList<>();
+    	_zuVerleihen.add(cd);
+    
+			try {
+				_service.verleiheAn(_kunde1, _zuVerleihen, new Datum(3, 4, 2009) );
+			} catch (ProtokollierException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		assertEquals(_kunde1, _service.getEntleiherFuer(cd));
+    }
+    
+    @Test
+    public void testeMerkeMedienFuerKundeVor(){
+    	
+    }
+    
+    @Test
+    public void testeMerkeMediumFuerKundeVor(){
+    	
+    }
+    
+    @Test
+    public void testeIstKundeVorgemerkt(){
+    	
+    }
+    
+    
+    @Test
+    public void testeIstVormerkenMoeglich(){
+    	
+    	
+    }
+    
+    
+    
+    
 }
